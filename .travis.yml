@@ -48,7 +48,7 @@ install:
     - conda build-all --inspect-channels="$DESTINATION_CONDA_CHANNEL" --upload-channels="$DESTINATION_CONDA_CHANNEL" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" .
     # Install the custom version, after installing openssl and psutil
     - conda install --force openssl=1.0.2d psutil
-    - conda install -c astropy-ci-extras --override-channels --force conda-build=1.21.0.mod
+    - conda install -c astropy-ci-extras --override-channels --force conda-build
 
 script:
     # Get ready to build.

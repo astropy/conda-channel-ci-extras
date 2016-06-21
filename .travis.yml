@@ -47,7 +47,7 @@ install:
     # options to setup.py)
     - conda build-all --inspect-channels="$DESTINATION_CONDA_CHANNEL" --upload-channels="$DESTINATION_CONDA_CHANNEL" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" .
     # Install the custom version, after installing openssl
-    - conda install openssl
+    - conda install --force openssl=1.0.2d
     - conda install -c astropy-ci-extras --override-channels conda-build
 
 script:

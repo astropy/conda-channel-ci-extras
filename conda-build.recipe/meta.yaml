@@ -2,7 +2,7 @@
 
 package:
   name: conda-build
-  version: {{ version }}_mod
+  version: {{ version }}.mod
 
 source:
   url: https://github.com/conda/conda-build/archive/{{ version }}.tar.gz

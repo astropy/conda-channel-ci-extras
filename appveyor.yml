@@ -64,7 +64,7 @@ install:
     - cmd: conda install extruder
 
     # Build the modified conda-build, if necessary...
-    - cmd: conda build-all --inspect-channels="%DESTINATION_CONDA_CHANNEL%" --upload-channels="%DESTINATION_CONDA_CHANNEL%" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" conda-build.recipe
+    - cmd: conda build-all --inspect-channels="%DESTINATION_CONDA_CHANNEL%" --upload-channels="%DESTINATION_CONDA_CHANNEL%" --matrix-condition="python %PYTHON_BUILD_RESTRICTIONS%" conda-build.recipe
 
     # Install custom version of conda-build for now (need to be able to pass
     # options to setup.py)
@@ -77,4 +77,4 @@ test_script:
     # Get ready to build.
     - "%CMD_IN_ENV% extrude_recipes requirements.yml"
     # Packages are uploaded as they are built.
-    - if exist recipes %CMD_IN_ENV% conda build-all --inspect-channels="%DESTINATION_CONDA_CHANNEL%" --upload-channels="%DESTINATION_CONDA_CHANNEL%" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" recipes
+    - if exist recipes %CMD_IN_ENV% conda build-all --inspect-channels="%DESTINATION_CONDA_CHANNEL%" --upload-channels="%DESTINATION_CONDA_CHANNEL%" --matrix-condition="python %PYTHON_BUILD_RESTRICTIONS%" recipes

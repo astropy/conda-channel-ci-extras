@@ -1,0 +1,119 @@
+diff --git a/conda_build/main_skeleton.py b/conda_build/main_skeleton.py
+index c3eb3ae..6f35f6c 100644
+--- a/conda_build/main_skeleton.py
++++ b/conda_build/main_skeleton.py
+@@ -159,6 +159,24 @@ Create recipe skeleton for packages hosted on the Python Packaging Index
+         help="Creates recipe as noarch python"
+     )
+ 
++    pypi.add_argument(
++        "--setup-options",
++        action='append',
++        default=[],
++        help='Options to be added to setup.py install in the recipe. '
++             'The same options are passed to setup.py install in both '
++             'the construction of the recipe and in the recipe itself.'
++             'For options that include a double-hypen or to pass multiple '
++             'options, use the syntax '
++             '--setup-options="--option1 --optin-with-arg arg"')
++
++    pypi.add_argument(
++        "--pin-numpy",
++        action='store_true',
++        help="Ensure that the generated recipe pins the version of numpy"
++             "to CONDA_NPY."
++    )
++
+     cpan = repos.add_parser(
+         "cpan",
+         help="""
+diff --git a/conda_build/pypi.py b/conda_build/pypi.py
+index 5ec478e..3a6c46d 100644
+--- a/conda_build/pypi.py
++++ b/conda_build/pypi.py
+@@ -105,7 +105,7 @@ about:
+ PYPI_BUILD_SH = """\
+ #!/bin/bash
+ 
+-$PYTHON setup.py install
++$PYTHON setup.py install {recipe_setup_options}
+ 
+ # Add more build steps here, if they are necessary.
+ 
+@@ -115,7 +115,7 @@ $PYTHON setup.py install
+ """
+ 
+ PYPI_BLD_BAT = """\
+-"%PYTHON%" setup.py install
++"%PYTHON%" setup.py install {recipe_setup_options}
+ if errorlevel 1 exit 1
+ 
+ :: Add more build steps here, if they are necessary.
+@@ -361,6 +361,22 @@ def main(args, parser):
+         if d['entry_comment'] == d['import_comment'] == '# ':
+             d['test_comment'] = '# '
+ 
++        d['recipe_setup_options'] = ' '.join(args.setup_options)
++
++        # Change requirements to use format that guarantees the numpy
++        # version will be pinned when the recipe is built and that
++        # the version is included in the build string.
++        if args.pin_numpy:
++            for depends in ['build_depends', 'run_depends']:
++                deps = d[depends].split(INDENT)
++                numpy_dep = [idx for idx, dep in enumerate(deps)
++                             if 'numpy' in dep]
++                if numpy_dep:
++                    # Turns out this needs to be inserted before the rest
++                    # of the numpy spec.
++                    deps.insert(numpy_dep[0], 'numpy x.x')
++                    d[depends] = INDENT.join(deps)
++
+     for package in package_dicts:
+         d = package_dicts[package]
+         name = d['packagename']
+@@ -478,7 +494,8 @@ def get_package_metadata(args, package, d, data):
+                           filename=d['filename'],
+                           pypiurl=d['pypiurl'],
+                           md5=d['md5'],
+-                          python_version=args.python_version)
++                          python_version=args.python_version,
++                          setup_options=args.setup_options)
+ 
+     setuptools_build = pkginfo['setuptools']
+     setuptools_run = False
+@@ -710,7 +727,7 @@ def get_requirements(package, pkginfo, all_extras=True):
+     return requires
+ 
+ 
+-def get_pkginfo(package, filename, pypiurl, md5, python_version):
++def get_pkginfo(package, filename, pypiurl, md5, python_version, setup_options):
+     # Unfortunately, two important pieces of metadata are only stored in
+     # the package itself: the dependencies, and the entry points (if the
+     # package uses distribute).  Our strategy is to download the package
+@@ -737,7 +754,7 @@ def get_pkginfo(package, filename, pypiurl, md5, python_version):
+         print("working in %s" % tempdir)
+         src_dir = get_dir(tempdir)
+         # TODO: find args parameters needed by run_setuppy
+-        run_setuppy(src_dir, tempdir, python_version)
++        run_setuppy(src_dir, tempdir, python_version, setup_options)
+         with open(join(tempdir, 'pkginfo.yaml')) as fn:
+             pkginfo = yaml.load(fn)
+     finally:
+@@ -746,7 +763,7 @@ def get_pkginfo(package, filename, pypiurl, md5, python_version):
+     return pkginfo
+ 
+ 
+-def run_setuppy(src_dir, temp_dir, python_version):
++def run_setuppy(src_dir, temp_dir, python_version, setup_options):
+     '''
+     Patch distutils and then run setup.py in a subprocess.
+ 
+@@ -797,6 +814,7 @@ def run_setuppy(src_dir, temp_dir, python_version):
+     cwd = getcwd()
+     chdir(src_dir)
+     cmdargs = [config.build_python, 'setup.py', 'install']
++    cmdargs.extend(setup_options)
+     try:
+         subprocess.check_call(cmdargs, env=env)
+     except subprocess.CalledProcessError:

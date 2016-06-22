@@ -23,6 +23,9 @@ env:
         # Define a numpy version that will be ignored anyway...
         - CONDA_NPY="1.11"
 
+        # This controls how many older numpy versions are built.
+        - MAX_NUMPY_MINOR_VERSIONS="5"
+
 # Matrix is fully specified (for now) by os versions
 
 install:
@@ -57,4 +60,4 @@ script:
     # Get ready to build.
     - extrude_recipes requirements.yml
     # Packages are uploaded as they are built.
-    - if [[ -d recipes ]]; then conda build-all --inspect-channels="$DESTINATION_CONDA_CHANNEL" --upload-channels="$DESTINATION_CONDA_CHANNEL" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" recipes; fi
+    - if [[ -d recipes ]]; then conda build-all --matrix-max-n-minor-versions="$MAX_NUMPY_MINOR_VERSIONS" --inspect-channels="$DESTINATION_CONDA_CHANNEL" --upload-channels="$DESTINATION_CONDA_CHANNEL" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" recipes; fi

@@ -24,9 +24,11 @@ requirements:
     - python
     - setuptools
     - numpy x.x
+    - numpy >=1.7
   run:
     - python
     - numpy x.x
+    - numpy >=1.7
 
 test:
   # Just a couple of sample imports/scripts here. Not meant to be exhaustive...

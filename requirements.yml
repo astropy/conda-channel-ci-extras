@@ -26,7 +26,7 @@
   # setup.py often does not contain those restrictions (and conda skeleton
   # ignores it if present), so list restrictions on python version here.
 
-  python: '2.7*'  # if omitted, no restriction on python builds.
+  python: '2.7*|3.5'  # if omitted, no restriction on python builds.
 
   # Some packages can only be built for certain platforms. List the EXCLUDED
   # platforms here. Platform names are shown below...note that listing all

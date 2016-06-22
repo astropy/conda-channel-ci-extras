@@ -21,7 +21,7 @@ env:
         - PYTHON_BUILD_RESTRICTIONS="2.7*|>=3.4"
 
         # The numpy build restrictions can be empty.
-        - NUMPY_BUILD_CONDITION=--matrix-condition="numpy <1.11"
+        - NUMPY_BUILD_CONDITION='--matrix-condition="numpy <1.11"'
 
         # Define a numpy version that will be ignored anyway...
         - CONDA_NPY="1.11"

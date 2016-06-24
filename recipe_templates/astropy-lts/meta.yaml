@@ -1,0 +1,47 @@
+# Adapted from the recipe at https://github.com/ContinuumIO/anaconda-recipes/blob/master/astropy/meta.yaml
+
+package:
+  name: astropy
+  version: {{ version }}
+
+source:
+  fn: astropy-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/a/astropy/astropy-{{ version }}.tar.gz
+
+build:
+  entry_points:
+    - fits2bitmap = astropy.visualization.scripts.fits2bitmap:main
+    - fitscheck = astropy.io.fits.scripts.fitscheck:main
+    - fitsdiff = astropy.io.fits.scripts.fitsdiff:main
+    - fitsheader = astropy.io.fits.scripts.fitsheader:main
+    - samp_hub = astropy.vo.samp.hub_script:hub_script
+    - volint = astropy.io.votable.volint:main
+    - wcslint = astropy.wcs.wcslint:main
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - numpy x.x
+    - numpy >=1.7
+  run:
+    - python
+    - numpy x.x
+    - numpy >=1.7
+
+test:
+  # Just a couple of sample imports/scripts here. Not meant to be exhaustive...
+  commands:
+    - fitscheck --help
+    - fitsdiff --help
+  imports:
+    - astropy
+    - astropy.io.fits
+    - astropy.time
+
+about:
+  home: http://www.astropy.org/
+  license: BSD 3-clause
+  summary: Community-developed Python Library for Astronomy
+  doc_url: http://docs.astropy.org/en/stable/
+  dev_url: https://github.com/astropy/astropy

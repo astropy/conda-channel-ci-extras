@@ -3,37 +3,33 @@
 # Each package gets its own section. Hopefully the package you are building
 # only needs name and version, but there are several other options.
 
-- name: astropy
+- name: astropy-stable
+  # THIS WILL GET UPLOADED AS astropy
+  version: '1.2.1'
+  setup_options: '--offline'
+  numpy_compiled_extensions: true
 
-  # Version should match the version on PyPI. Versions that could be
-  # interpreted as numbers (e.g. 0.1) must be enclosed in quotes.
-
-  version: '1.2' # Required for all packages.
-
-  # Some packages need extra options passed to setup.py install. This
-  # is the place to provide those options.
-
-  setup_options: '--offline'   # Defaults to empty if omitted.
-
-  # If the package contains compiled extensions that link to numpy this
-  # must be set to true to ensure the package is built properly.
-  # If in doubt, set it to true...though it should *always be false*
-  # for a pure python package.
-
-  numpy_compiled_extensions: true   # Defaults to false if omitted.
-
-  # Some packages can only be built for specific versions of python but
-  # setup.py often does not contain those restrictions (and conda skeleton
-  # ignores it if present), so list restrictions on python version here.
-
+  # Continuum builds astropy for the latest numpy on py2 and py3. The
+  # affiliated package template includes builds against older numpy
+  # on python 2.7, so we'll build those.
   python: '2.7*'  # if omitted, no restriction on python builds.
 
-  # Some packages can only be built for certain platforms. List the EXCLUDED
-  # platforms here. Platform names are shown below...note that listing all
-  # platforms would result in no builds!
+  # Since we only need these for CI, only build on linux.
+  excluded_platforms:
+    - 'win-64'
+    #- 'osx-64'
 
-  # Default, if omitted, is to build on all platforms listed below.
+- name: astropy-lts
+  # THIS WILL GET UPLOADED AS astropy
+
+  version: '1.0.10'
+  setup_options: '--offline'
+  numpy_compiled_extensions: true
+
+  # Continuum isn't building LTS at all now, so do this on py2 and py3.
+  python: '2.7*|3.5*'
+
+  # Since we only need these for CI, only build on linux.
   excluded_platforms:
     - 'win-64'
     - 'osx-64'
-

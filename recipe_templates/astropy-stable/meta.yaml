@@ -1,5 +1,10 @@
 # Adapted from the recipe at https://github.com/ContinuumIO/anaconda-recipes/blob/master/astropy/meta.yaml
 
+# The lower limit on numpy should be whatever is appropriate for the latest
+# astropy stable (i.e. non-LTS) release. The upper limit should be whatever
+# numpy version continuum is already building astropy for.
+{% set numpy_varsion_spec = ">=1.7,<1.11" %}
+
 package:
   name: astropy
   version: {{ version }}
@@ -7,7 +12,6 @@ package:
 source:
   fn: astropy-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/a/astropy/astropy-{{ version }}.tar.gz
-  md5: {{ md5 }}
 
 build:
   entry_points:
@@ -24,12 +28,11 @@ requirements:
     - python
     - setuptools
     - numpy x.x
-    - numpy >=1.7
+    - numpy {{ numpy_varsion_spec }}
   run:
     - python
     - numpy x.x
-    - numpy >=1.7
-
+    - numpy {{ numpy_varsion_spec }}
 test:
   # Just a couple of sample imports/scripts here. Not meant to be exhaustive...
   commands:

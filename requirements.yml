@@ -17,7 +17,7 @@
   # Since we only need these for CI, only build on linux.
   excluded_platforms:
     - 'win-64'
-    #- 'osx-64'
+    - 'osx-64'
 
 - name: astropy-lts
   # THIS WILL GET UPLOADED AS astropy

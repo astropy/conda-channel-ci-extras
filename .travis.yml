@@ -62,5 +62,5 @@ script:
     # Get ready to build.
     - extrude_recipes requirements.yml
     # Packages are uploaded as they are built.
-    - if [[ -d recipes ]]; then conda build-all --matrix-max-n-minor-versions="$MAX_NUMPY_MINOR_VERSIONS" --inspect-channels defaults "$DESTINATION_CONDA_CHANNEL" --upload-channels="$DESTINATION_CONDA_CHANNEL" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" $NUMPY_BUILD_CONDITION recipes > $LOG_FILE_NAME; fi
+    - if [[ -d recipes ]]; then conda build-all --matrix-max-n-minor-versions="$MAX_NUMPY_MINOR_VERSIONS" --inspect-channels defaults "$DESTINATION_CONDA_CHANNEL" --upload-channels="$DESTINATION_CONDA_CHANNEL" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" $NUMPY_BUILD_CONDITION recipes; fi
     - tail -400 $LOG_FILE_NAME || echo "No log created"

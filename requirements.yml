@@ -12,7 +12,7 @@
   # Continuum builds astropy for the latest numpy on py2 and py3. The
   # affiliated package template includes builds against older numpy
   # on python 2.7, so we'll build those.
-  python: '2.7*'  # if omitted, no restriction on python builds.
+  python: '2.7*|>=3.4*'  # if omitted, no restriction on python builds.
 
   # Since we only need these for CI, only build on linux.
   excluded_platforms:
@@ -27,7 +27,7 @@
   numpy_compiled_extensions: true
 
   # Continuum isn't building LTS at all now, so do this on py2 and py3.
-  python: '2.7*|3.5*'
+  python: '2.7*|>=3.4*'
 
   # Since we only need these for CI, only build on linux.
   excluded_platforms:

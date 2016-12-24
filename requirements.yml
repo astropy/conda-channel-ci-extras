@@ -5,7 +5,7 @@
 
 - name: astropy-stable
   # THIS WILL GET UPLOADED AS astropy
-  version: '1.3.0'
+  version: '1.3'
   setup_options: '--offline --single-version-externally-managed --record=foo.txt'
   numpy_compiled_extensions: true
 

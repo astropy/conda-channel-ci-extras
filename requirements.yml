@@ -5,8 +5,8 @@
 
 - name: astropy-stable
   # THIS WILL GET UPLOADED AS astropy
-  version: '1.2.1'
-  setup_options: '--offline'
+  version: '1.2.2'
+  setup_options: '--offline --single-version-externally-managed --record=foo.txt'
   numpy_compiled_extensions: true
 
   # Continuum builds astropy for the latest numpy on py2 and py3. The
@@ -22,8 +22,8 @@
 - name: astropy-lts
   # THIS WILL GET UPLOADED AS astropy
 
-  version: '1.0.10'
-  setup_options: '--offline'
+  version: '1.0.11'
+  setup_options: '--offline --single-version-externally-managed --record=foo.txt'
   numpy_compiled_extensions: true
 
   # Continuum isn't building LTS at all now, so do this on py2 and py3.

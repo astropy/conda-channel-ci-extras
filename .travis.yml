@@ -59,12 +59,20 @@ install:
     - conda install -c astropy extruder
 
 script:
+    # Only upload if this is NOT a pull request and NOT a fork.
+    - UPLOAD="";
+    - if ["$TRAVIS_PULL_REQUEST" = "false" ]; then
+        if [ $TRAVIS_REPO_SLUG = "astropy/conda-channel-ci-extras" ]; then
+          echo "Uploading enabled";
+          UPLOAD="--upload-channels $DESTINATION_CONDA_CHANNEL";
+        fi
+      fi
     # Get ready to build.
     - extrude_recipes requirements.yml
     # Packages are uploaded as they are built.
     # NOTE TO FUTURE: travis has a 4MB limit on log output. This can easily hit that
     # when building several versions, so direct output to a file, not stdout.
-    - if [[ -d recipes ]]; then conda build-all --matrix-max-n-minor-versions="$MAX_NUMPY_MINOR_VERSIONS" --inspect-channels defaults "$DESTINATION_CONDA_CHANNEL" --upload-channels="$DESTINATION_CONDA_CHANNEL" --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" $NUMPY_BUILD_CONDITION recipes > $LOG_FILE_NAME; fi
+    - if [[ -d recipes ]]; then conda build-all --matrix-max-n-minor-versions="$MAX_NUMPY_MINOR_VERSIONS" --inspect-channels defaults "$DESTINATION_CONDA_CHANNEL" $UPLOAD --matrix-condition="python $PYTHON_BUILD_RESTRICTIONS" $NUMPY_BUILD_CONDITION recipes > $LOG_FILE_NAME; fi
     # Display the beginning of the log so we know what
     # attempted to build.
     - head -n 600 $LOG_FILE_NAME || echo "No log created"

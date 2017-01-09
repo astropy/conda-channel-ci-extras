@@ -74,7 +74,11 @@ install:
 build: off
 
 test_script:
+    # Only upload if this is NOT a pull request and NOT a fork.
+    - set UPLOAD=
+    - if not defined APPVEYOR_PULL_REQUEST_NUMBER (if %APPVEYOR_ACCOUNT_NAME%==Astropy (set UPLOAD=--upload-channels %DESTINATION_CONDA_CHANNEL%))
+    - echo Upload is %UPLOAD%
     # Get ready to build.
     - "%CMD_IN_ENV% extrude_recipes requirements.yml"
     # Packages are uploaded as they are built.
-    - if exist recipes %CMD_IN_ENV% conda build-all --inspect-channels="%DESTINATION_CONDA_CHANNEL%" --upload-channels="%DESTINATION_CONDA_CHANNEL%" --matrix-condition="python %PYTHON_BUILD_RESTRICTIONS%" recipes
+    - if exist recipes %CMD_IN_ENV% conda build-all --inspect-channels="%DESTINATION_CONDA_CHANNEL%" %UPLOAD% --matrix-condition="python %PYTHON_BUILD_RESTRICTIONS%" recipes

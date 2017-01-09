@@ -59,7 +59,7 @@ install:
     - conda install -c astropy extruder
 
 script:
-    # Only upload if this is NOT a pull request.
+    # Only upload if this is NOT a pull request and NOT a fork.
     - UPLOAD="";
     - if ["$TRAVIS_PULL_REQUEST" = "false" ]; then
         if [ $TRAVIS_REPO_SLUG = "astropy/conda-channel-ci-extras" ]; then

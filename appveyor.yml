@@ -19,6 +19,7 @@ environment:
 
   # This does not really matter but needs to be set...
   CONDA_NPY: "1.11"
+  CONDA_VERSION: "4.2.*"
 
   matrix:
     # Unfortunately, compiler/SDK configuration for 64 bit builds depends on
@@ -52,7 +53,7 @@ install:
     - cmd: SET PATH=%CONDA_INSTALL_LOCN%;%CONDA_INSTALL_LOCN%\Scripts;%PATH%
 
     - cmd: conda config --set always_yes true
-    - cmd: conda update --quiet conda
+    - cmd: conda install --quiet conda=%CONDA_VERSION%
     - cmd: conda config --add channels astropy
     - cmd: conda config --add channels conda-forge
     - cmd: conda install --quiet astropy anaconda-client jinja2 cython

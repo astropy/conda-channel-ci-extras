@@ -56,20 +56,17 @@ install:
     - cmd: conda install --quiet conda=%CONDA_VERSION%
     - cmd: conda config --add channels astropy
     - cmd: conda config --add channels conda-forge
+    - cmd: conda install conda-build=2.0.10
     - cmd: conda install --quiet astropy anaconda-client jinja2 cython
     # These installs are needed on windows but not other platforms.
     - cmd: conda install patch psutil
     - cmd: conda install -c conda-forge conda-build-all
-    # - cmd: conda install --force conda-build=1.20.0
 
     # Finally, install extruder
     - cmd: conda install extruder
 
-    # Build the modified conda-build, if necessary...
-    - "%CMD_IN_ENV% conda build-all --inspect-channels=\"%DESTINATION_CONDA_CHANNEL%\" --upload-channels=\"%DESTINATION_CONDA_CHANNEL%\" --matrix-condition=\"python %PYTHON_BUILD_RESTRICTIONS%\" conda-build.recipe"
-    # Install custom version of conda-build for now (need to be able to pass
-    # options to setup.py)
-    - cmd: conda install -c astropy-ci-extras --override-channels --force conda-build
+    # To ease debugging, list installed packages
+    - cmd: conda info -a
 
 # Skip .NET project specific build phase.
 build: off
@@ -82,4 +79,4 @@ test_script:
     # Get ready to build.
     - "%CMD_IN_ENV% extrude_recipes requirements.yml"
     # Packages are uploaded as they are built.
-    - if exist recipes %CMD_IN_ENV% conda build-all --inspect-channels="%DESTINATION_CONDA_CHANNEL%" %UPLOAD% --matrix-condition="python %PYTHON_BUILD_RESTRICTIONS%" recipes
+    - if exist recipes %CMD_IN_ENV% conda build-all --inspect-channels="%DESTINATION_CONDA_CHANNEL%" %UPLOAD% --matrix-conditions "python %PYTHON_BUILD_RESTRICTIONS%" recipes

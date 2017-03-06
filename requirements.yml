@@ -22,7 +22,7 @@
 - name: astropy-lts
   # THIS WILL GET UPLOADED AS astropy
 
-  version: '1.0.11'
+  version: '1.0.12'
   setup_options: '--offline --single-version-externally-managed --record=foo.txt'
   numpy_compiled_extensions: true
 

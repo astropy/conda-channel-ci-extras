@@ -38,7 +38,9 @@ environment:
     - TARGET_ARCH: "x64"
       PYTHON_BUILD_RESTRICTIONS: "3.5*"
       CONDA_PY: "35"
-    # For 32 bit builds there are no compiler issues, let Obvious-CI
+    - TARGET_ARCH: "x64"
+      PYTHON_BUILD_RESTRICTIONS: "3.6*"
+      CONDA_PY: "36"    # For 32 bit builds there are no compiler issues, let Obvious-CI
     # handle the matrix.
     # - TARGET_ARCH: "x86"
     #   PYTHON_BUILD_RESTRICTIONS: "2.7*|>=3.4"

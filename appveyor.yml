@@ -65,7 +65,7 @@ install:
     # These installs are needed on windows but not other platforms.
     - cmd: conda install patch psutil
     - cmd: conda install -c conda-forge conda-build-all
-    - cmd: conda install conda-build=2.1.10
+    - cmd: conda install conda-build=2.0.10
 
     # Finally, install extruder
     - cmd: conda install extruder

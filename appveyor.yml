@@ -61,11 +61,11 @@ install:
     - cmd: conda install --quiet conda=%CONDA_VERSION%
     - cmd: conda config --add channels astropy
     - cmd: conda config --add channels conda-forge
-    - cmd: conda install --quiet astropy anaconda-client jinja2 cython
+    - cmd: conda install --quiet astropy anaconda-client=1.6.2 jinja2 cython
     # These installs are needed on windows but not other platforms.
     - cmd: conda install patch psutil
     - cmd: conda install -c conda-forge conda-build-all
-    - cmd: conda install conda-build=2.0.10
+    - cmd: conda install conda-build=2
 
     # Finally, install extruder
     - cmd: conda install extruder

@@ -79,7 +79,7 @@ test_script:
     - if not defined APPVEYOR_PULL_REQUEST_NUMBER (if %APPVEYOR_ACCOUNT_NAME%==Astropy (set UPLOAD=--upload-channels %DESTINATION_CONDA_CHANNEL%))
     - echo Upload is %UPLOAD%
     # Get ready to build.
-    - "%CMD_IN_ENV% extrude_recipes requirements.yml"
+    - "%CMD_IN_ENV% extrude_recipes --dont-copy-conda-forge requirements.yml"
     # NOTE TO FUTURE: Do NOT bother to copy packages on the Windows side.
     # Copying will copy for all platforms, no need to do it repetitively.
     # Packages are uploaded as they are built.

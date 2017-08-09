@@ -73,7 +73,7 @@ script:
         fi
       fi
     # Get ready to build.
-    - extrude_recipes requirements.yml
+    - extrude_recipes --dont-copy-conda-forge requirements.yml
     # If there are packages to copy, do that first, but only if UPLOAD is set,
     # and only on Linux, since those travis machines are fastest. Copy only
     # needs to happen once to copy all available builds.

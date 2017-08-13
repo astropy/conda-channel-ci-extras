@@ -3,7 +3,7 @@
 # The lower limit on numpy should be whatever is appropriate for the latest
 # astropy stable (i.e. non-LTS) release. The upper limit should be whatever
 # numpy version continuum is already building astropy for.
-{% set numpy_varsion_spec = ">=1.7,<1.11" %}
+{% set numpy_varsion_spec = ">=1.9,<1.12" %}
 
 package:
   name: astropy
@@ -19,7 +19,8 @@ build:
     - fitscheck = astropy.io.fits.scripts.fitscheck:main
     - fitsdiff = astropy.io.fits.scripts.fitsdiff:main
     - fitsheader = astropy.io.fits.scripts.fitsheader:main
-    - samp_hub = astropy.vo.samp.hub_script:hub_script
+    - fitsinfo = astropy.io.fits.scripts.fitsinfo:main
+    - samp_hub = astropy.samp.hub_script:hub_script
     - volint = astropy.io.votable.volint:main
     - wcslint = astropy.wcs.wcslint:main
 
@@ -36,8 +37,14 @@ requirements:
 test:
   # Just a couple of sample imports/scripts here. Not meant to be exhaustive...
   commands:
+    - fits2bitmap --help
     - fitscheck --help
     - fitsdiff --help
+    - fitsheader --help
+    - fitsinfo --help
+    - samp_hub --help
+    - volint --help
+    - wcslint --help
   imports:
     - astropy
     - astropy.io.fits

@@ -5,7 +5,7 @@
 
 - name: astropy-stable
   # THIS WILL GET UPLOADED AS astropy
-  version: '2.0'
+  version: '2.0.1'
   setup_options: '--offline --single-version-externally-managed --record=foo.txt'
   numpy_compiled_extensions: true
 
@@ -22,7 +22,7 @@
 - name: astropy-lts
   # THIS WILL GET UPLOADED AS astropy
 
-  version: '2.0'
+  version: '2.0.1'
   setup_options: '--offline --single-version-externally-managed --record=foo.txt'
   numpy_compiled_extensions: true
 
